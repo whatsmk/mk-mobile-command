@@ -63,11 +63,15 @@ function createPackageJson(root, name) {
       version: '1.0.0',
       license: 'MIT',
       author: '',
-      keywords: ['mk', 'monkey king', 'react', 'redux', 'antd'],
+      keywords: ['mk', 'monkey king', 'react', 'redux', 'mk-js', 'mk-mobile-command', name],
       repository: {
         "type": "git",
-        "url": "git+https://github.com/ziaochina/mk-command.git"
+        "url": `https://github.com/whatsmk/${name}.git`
       },
+      bugs: {
+        url: `https://github.com/whatsmk/${name}/issues`
+      },
+      homepage: `https://github.com/whatsmk/${name}#readme`,
       scripts: {
         'start': 'mkm start',
         'build': 'mkm build',
@@ -95,7 +99,6 @@ function createMKJson(root, name) {
         "proxy": null,
         "port": 8000
       },
-      html: {},
       dependencies: {}
     };
 

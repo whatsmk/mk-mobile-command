@@ -1,3 +1,12 @@
+<% presetDepAppNames = [] , depApps = {}, exitsPreset = false %>
+{{each dependencies val key}}
+    <% if (val.isPreset) { %>
+        <% presetDepAppNames.push(key); %>
+        <% exitsPreset = true; %>
+    <% } else { %>
+        <% depApps[key] = dependencies[key]; %>
+    <% } %>
+{{/each}}
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +23,9 @@
             min-height: 500px;
         }
     </style>
+	{{each presetDepAppNames key}}
+        <link type="text/css" rel='stylesheet' href='{{dev===true?key+'.css':key+'.min.css'}}' />
+    {{/each}}
 </head>
 <body>
     <div id="app"></div>
@@ -37,17 +49,19 @@
                 }
             })
             var options = {}
-            /*mk.requireApps(require, {{@preApp}}, function () {*/
+            {{if exitsPreset}}
+            mk.requireApps(require, {{@ $imports.stringify(presetDepAppNames)}}, function(){
+            {{/if}}
                 mk.init({
                     requireFn: require,
                     appsMap:{
-                        {{each dependencies val key}}
+                        {{each depApps val key}}
+                        {{set appOptions = $imports.stringify(val.options) }}
                         "{{key}}":{
                             asset:"{{dev===true?key+'.js':key+'.min.js'}}",
-                            options : Object.assign(options, val.options)
+                            options : Object.assign(options, {{@ appOptions}})
                         },
                         {{/each}}
-                        {{}}
                         "{{name}}":{
                             asset: "{{dev===true?name+'.js':name+'.min.js'}}",
                             options: {}
@@ -55,7 +69,10 @@
                     }
                 });
                 mk.render('{{rootApp || name}}', 'app');
-            /*})*/
+            {{if exitsPreset}}
+            })
+            {{/if}}
+
         }
 
     </script>
