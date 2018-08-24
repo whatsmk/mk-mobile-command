@@ -73,7 +73,8 @@ module.exports = {
             commonjs2: "MK.metaEngine",
             amd: "MK.metaEngine",
             root: "MK.metaEngine"
-        }
+        },
+        "echarts":"echarts"
     },
     module: {
         rules: [{
